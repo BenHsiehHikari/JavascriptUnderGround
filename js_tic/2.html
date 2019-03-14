@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 1280px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #FF6D70;
+        }
+        
+        .container {
+            width: 540px;
+            height: 540px;
+            display: grid;
+            grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+        }
+        
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1.5px solid rgb(208, 19, 22);
+        }
+        
+        .box:nth-child(1) {
+            border-top: none;
+            border-left: none;
+        }
+        
+        .box:nth-child(2) {
+            border-top: none;
+        }
+        
+        .box:nth-child(3) {
+            border-top: none;
+            border-right: none;
+        }
+        
+        .box:nth-child(4) {
+            border-left: none;
+        }
+        
+        .box:nth-child(6) {
+            border-right: none;
+        }
+        
+        .box:nth-child(7) {
+            border-left: none;
+            border-bottom: none;
+        }
+        
+        .box:nth-child(8) {
+            border-bottom: none;
+        }
+        
+        .box:nth-child(9) {
+            border-right: none;
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="score">
+            <div class="X">
+                <span class="mark">X</span>
+                <span class="point"></span>
+            </div>
+            <div class="vs">vs</div>
+            <div class="O">
+                <span class="point"></span>
+                <span class="mark">O</span>
+            </div>
+        </div>
+        <div class="truning">
+            <div class="Otruning" style="color:yellow"></div>
+            <div class="Xtruning" style="color:pink"></div>
+        </div>
+        <div class="container">
+            <div data-id="1" class="box"></div>
+            <div data-id="2" class="box"></div>
+            <div data-id="3" class="box"></div>
+            <div data-id="4" class="box"></div>
+            <div data-id="5" class="box"></div>
+            <div data-id="6" class="box"></div>
+            <div data-id="7" class="box"></div>
+            <div data-id="8" class="box"></div>
+            <div data-id="9" class="box"></div>
+        </div>
+        <div class="restart">RESTART</div>
+    </div>
+    <script>
+        var Boxes = document.querySelectorAll('.box');
+        var turn = 1;
+        var xMarks = [];
+        var oMarks = [];
+        var win = [
+            ["1", "2", "3"],
+            ["4", "5", "6"],
+            ["7", "8", "9"],
+            ["1", "4", "7"],
+            ["2", "5", "8"],
+            ["3", "6", "9"],
+            ["1", "5", "9"],
+            ["3", "5", "7"]
+        ];
+        var Xpoint = document.querySelector('.X .point');
+        var Opoint = document.querySelector('.O .point');
+        var Otruning = document.querySelector('.truning .Otruning');
+        var Xtruning = document.querySelector('.truning .Xtruning');
+        var restart = document.querySelector('.restart');
+        var Xscores = JSON.parse(localStorage.getItem('Xscores')) || [];
+        var Oscores = JSON.parse(localStorage.getItem('Oscores')) || [];
+
+        function addMark(event) {
+            if (event.target.innerHTML.length === 0) {
+                if (turn % 2 === 0) {
+                    xMarks.push(event.currentTarget.dataset.id);
+                    console.log(xMarks);
+                    event.target.innerHTML = "X";
+                    Xtruning.innerHTML = "YOUR TURN!";
+                    Otruning.innerHTML = "";
+                    event.target.style.background = "yellow";
+                } else {
+                    oMarks.push(event.currentTarget.dataset.id);
+                    console.log(oMarks);
+                    event.target.innerHTML = "O";
+                    Otruning.innerHTML = "YOUR TURN!";
+                    Xtruning.innerHTML = "";
+                    event.target.style.background = "green";
+                }
+            } else {
+                alert("sdadsas");
+            }
+            turn++;
+            checkWin(xMarks, "X");
+            checkWin(oMarks, "O");
+            if (turn === 10) {
+                alert("draw");
+            }
+        }
+
+        function checkWin(marksArray, name) {
+            for (i = 0; i < win.length; i++) {
+                var numWins = 0;
+                for (let j = 0; j < win[i].length; j++) {
+                    if (marksArray.indexOf(win[i][j]) !== -1) {
+                        numWins++;
+                    }
+
+                    if (numWins === 3) {
+                        var Xscore = 0;
+                        var Oscore = 0;
+                        alert("Game Over" + name + "winsssssss");
+                        if (name === "X") {
+                            Xscore++;
+                            Xscores.push(Xscore);
+                            localStorage.setItem('Xscores', JSON.stringify(Xscores));
+                        }
+                        Xpoint.innerHTML = SumDatareduce(Xscores);
+                        if (name === "O") {
+                            Oscore++;
+                            Oscores.push(Oscore);
+                            localStorage.setItem('Oscores', JSON.stringify(Oscores));
+
+                        }
+                        Opoint.innerHTML = SumDatareduce(Oscores);
+                    }
+                }
+            }
+        }
+
+
+
+        function SumDatareduce(arr) {
+            return arr.reduce((a, b) => a + b);
+        }
+
+        for (let i = 0; i < Boxes.length; i++) {
+            Boxes[i].addEventListener('click', addMark);
+        }
+
+        restart.addEventListener('click', function() {
+            let boxs = document.querySelectorAll('.box');
+            [].forEach.call(boxs, function(box) {
+                box.innerHTML = "";
+                box.style.background = "none";
+            });
+            xMarks.length = 0;
+            console.log(xMarks);
+            oMarks.length = 0;
+            console.log(xMarks);
+        });
+    </script>
+
+
+
+</body>
+
+</html>

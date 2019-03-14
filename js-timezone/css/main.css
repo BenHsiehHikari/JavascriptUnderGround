@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 800;
+}
+
+.wrapper {
+    width: 1280px;
+    height: 800px;
+    background-color: #E5E5E5;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel {
+    width: 540px;
+}
+
+h2 {
+    font-size: 72px;
+    font-family: Open Sans, ExtraBold;
+    border-top: 10px solid #000;
+    border-bottom: 10px solid #000;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.timezone {
+    height: 104px;
+    border: 1px solid black;
+    background-color: #000;
+    color: #fff;
+}
+
+.left,
+.timezone-time {
+    width: 50%;
+    float: left;
+}
+
+.left {
+    padding: 16px 40px;
+}
+
+.timezone-country {
+    font-family: Open Sans, Bold;
+    font-size: 36px;
+}
+
+.timezone-date {
+    font-family: Open Sans, Bold Italic;
+    font-size: 16px;
+}
+
+.timezone-time {
+    font-family: Open Sans, Bold;
+    font-size: 72px;
+    padding-bottom: 5px;
+    padding-left: 35px;
+}
+
+.lonDon,
+.banGkok,
+.taiWan {
+    background-color: #fff;
+    color: black;
+}

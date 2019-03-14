@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <style>
+        #app {
+            width: 1280px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            background-color: #000;
+        }
+        
+        .init {
+            display: grid;
+            grid-template-rows: 180px 180px 180px;
+            grid-template-columns: 180px 180px 180px;
+        }
+        
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .box--font {
+            font-family: Roboto Condensed, Bold Italic;
+            color: #fff;
+            font-size: 100px;
+            font-style: italic;
+        }
+        
+        .circle {
+            width: 100px;
+            height: 100px;
+            border: 12px solid #FF6D70;
+            border-radius: 50%;
+        }
+        
+        .circle-border {
+            width: 112px;
+            height: 112px;
+            border: 5px solid #FF6D70;
+            position: relative;
+            border-radius: 50%;
+        }
+        
+        .circle-border::after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 80px;
+            height: 80px;
+            border: 5px solid #FF6D70;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .box-x {
+            position: relative;
+        }
+        
+        .x1 {
+            width: 60px;
+            height: 10px;
+            border-left: 3px solid #ffff;
+            border-top: 3px solid #ffff;
+            border-bottom: 3px solid #ffff;
+            transform: rotate(45deg);
+            position: absolute;
+            right: 47%;
+        }
+        
+        .x1::after {
+            content: '';
+            width: 60px;
+            height: 10px;
+            border-left: 3px solid #ffff;
+            border-top: 3px solid #ffff;
+            border-bottom: 3px solid #ffff;
+            transform: rotate(-90deg);
+            position: absolute;
+            right: -38px;
+            top: 35px;
+        }
+        
+        .x2 {
+            width: 60px;
+            height: 10px;
+            border-left: 3px solid #ffff;
+            border-top: 3px solid #ffff;
+            border-bottom: 3px solid #ffff;
+            transform: rotate(135deg);
+            position: absolute;
+            left: 47%;
+        }
+        
+        .x2::after {
+            content: '';
+            width: 60px;
+            height: 10px;
+            border-left: 3px solid #ffff;
+            border-top: 3px solid #ffff;
+            border-bottom: 3px solid #ffff;
+            transform: rotate(90deg);
+            position: absolute;
+            left: 35px;
+            bottom: 35px;
+        }
+        
+        .X {
+            width: 140px;
+            height: 10px;
+            background-color: #FF6D70;
+            transform: rotate(45deg);
+        }
+        
+        .X::after {
+            content: '';
+            width: 140px;
+            height: 10px;
+            display: block;
+            background-color: #FF6D70;
+            transform: rotate(-90deg);
+        }
+        
+        .start--game {
+            background-color: #fff;
+            color: #FF6D70;
+            font-weight: bold;
+            text-transform: uppercase;
+            grid-column: 1/4;
+            align-self: start;
+            line-height: 89px;
+            text-align: center;
+            font-size: 48px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script>
+        let SIZE = 3,
+            empty = "&nbsp;",
+            boxes = [],
+            turn = "X",
+            score,
+            moves;
+
+        //初始畫面
+        function gameReady() {
+            let content =
+                `
+                <div class="init">
+                    <div class="box box--font">TIC</div>
+                    <div class="box">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="box box-x">
+                        <span class="x1"></span>
+                        <span class="x2"></span>
+                    </div>
+                    <div class="box box-x"><span class="X"></span></div>
+                    <div class="box box--font">TAC</div>
+                    <div class="box">
+                        <div class="circle-border"></div>
+                    </div>
+                    <div class="box">
+                        <div class="circle-border"></div>
+                    </div>
+                    <div class="box box-x"><span class="X"></span></div>
+                    <div class="box box--font">TOE</div>
+                    <div class="start--game">start</div>
+                </div>
+            `;
+            document.querySelector('#app').innerHTML = content;
+        }
+        gameReady();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+html {
+    background: #293b29;
+    background-size: cover;
+    font-family: "helvetica neue";
+    text-align: center;
+    font-size: 10px;
+}
+
+body {
+    margin: 0;
+    font-size: 2rem;
+    display: flex;
+    flex: 1;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.clock {
+    width: 350px;
+    height: 350px;
+    margin: 50px auto;
+    position: relative;
+    background-image: url("../imgs/clock-bg.svg");
+    background-position: center;
+    border-radius: 80px;
+}
+
+.hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: all 0.05s cubic-bezier(0, 2.95, 1, 1);
+}
+
+.hour-hand {
+    transform-origin: 0% 0%;
+}
+
+.min-hand {
+    transform-origin: 50% 0%;
+}
+
+.second-hand {
+    transform-origin: 50% 0%;
+}

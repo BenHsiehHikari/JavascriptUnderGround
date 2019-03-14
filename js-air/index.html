@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Noto Sans TC", sans-serif;
+        }
+        
+        .container {
+            width: 1280px;
+            margin: 80px auto;
+            background-color: #F0F0F0;
+            padding-top: 53px;
+            padding-left: 85px;
+            padding-right: 85px;
+        }
+        
+        .col.col-4 {
+            width: 33.33%;
+            margin-right: 30px;
+        }
+        
+        .col.col-8 {
+            width: calc(66.66% - 30px);
+        }
+        
+        .header {
+            position: relative;
+            display: flex;
+            border-bottom: 4px dotted black;
+            padding-bottom: 60px;
+            margin-bottom: 60px;
+        }
+        
+        .header .title {
+            font-size: 40px;
+            line-height: 59px;
+            font-weight: 800;
+        }
+        
+        .header select {
+            width: 100%;
+            height: 56px;
+            padding: 16px 30px;
+            font-weight: bold;
+            border: 3px solid black;
+            font-size: 16px;
+        }
+        
+        .header select:required:invalid {
+            color: gray;
+        }
+        
+        .header option[value=""][disabled] {
+            display: none;
+        }
+        
+        .fixed-city {
+            position: absolute;
+            bottom: -27px;
+            left: 0;
+            font-size: 36px;
+            line-height: 54px;
+            background-color: #f0f0f0;
+            padding-right: 16px;
+        }
+        
+        .fixed-time {
+            position: absolute;
+            bottom: -11px;
+            right: 0;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 22px;
+            background-color: #f0f0f0;
+            padding-left: 16px;
+        }
+        
+        .body {
+            display: flex;
+        }
+        
+        .box {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 97px;
+            border: 3px solid black;
+        }
+        
+        .box-50 {
+            width: calc(50% - 15px);
+        }
+        
+        .box .name,
+        .box .value {
+            width: 50%;
+            height: 97px;
+            line-height: 97px;
+            text-align: center;
+            font-weight: bold;
+            border-top: 3px solid black;
+            border-bottom: 3px solid black;
+        }
+        
+        .box .name {
+            font-size: 36px;
+            border-right: 3px solid black;
+        }
+        
+        .box .value {
+            font-size: 48px;
+        }
+        
+        ul.show_report {
+            list-style: none;
+            padding: 0px 30px;
+            border: 3px solid black;
+            border-top: 0;
+        }
+        
+        ul.show_report li {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+        
+        ul.show_report li p {
+            font-size: 24px;
+            line-height: 36px;
+            font-weight: bold;
+        }
+        
+        ul.show_report li span {
+            font-size: 16px;
+            line-height: 22px;
+            font-weight: normal;
+        }
+        
+        ul.show_report li+li {
+            border-top: 1px solid black;
+        }
+        
+        .box-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .box-list .box {
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+        
+        .box-list .box:nth-child(odd) {
+            margin-right: 30px;
+        }
+        
+        .lv1 {
+            background-color: #95f084;
+        }
+        
+        .lv2 {
+            background-color: #ffe695;
+        }
+        
+        .lv3 {
+            background-color: #ffaf6a;
+        }
+        
+        .lv4 {
+            background-color: #ff5757;
+        }
+        
+        .lv5 {
+            background-color: #9777ff;
+        }
+        
+        .lv6 {
+            background-color: #ad1774;
+        }
+        
+        .aqi_title,
+        .aqi_descri {
+            font-size: 0;
+        }
+        
+        .aqi_title li {
+            list-style: none;
+            display: inline-block;
+            font-size: 16px;
+            width: 16.66%;
+            border: 3px solid #000;
+            height: 54px;
+            text-align: center;
+            padding: 16px 0;
+        }
+        
+        .aqi_descri li {
+            list-style: none;
+            display: inline-block;
+            font-size: 16px;
+            width: 16.66%;
+            border: 3px solid #000;
+            height: 56px;
+            text-align: center;
+            vertical-align: top;
+            padding: 15px;
+        }
+        
+        .aqi_descri li:nth-child(3),
+        .aqi_descri li:nth-child(4) {
+            padding: 4px 15px;
+        }
+        
+        footer {
+            height: 34px;
+            background-color: #000;
+            color: #fff;
+            font-size: 0;
+            margin-top: 50px;
+        }
+        
+        footer .col-4,
+        footer .col-8 {
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 6px;
+        }
+        
+        footer .col.col-8 {
+            text-align: right;
+        }
+        
+        .error {
+            font-size: 60px;
+            color: #f00;
+            font-weight: 900;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="header">
+            <div class="col col-4">
+                <p class="title">空氣品質指標 (AQI)</p>
+                <select v-value="selectedCity" @change="handleSelectCity($event)">
+									<option value="" disabled="disabled" selected="selected">請選擇地區</option>
+									<option v-for="city in cities" v-value="city">{{city}}</option>
+									<option value=""></option>
+								</select>
+            </div>
+
+            <div class="col col-8">
+                <ul class="aqi_title">
+                    <li class="lv1">0~50</li>
+                    <li class="lv2">51~100</li>
+                    <li class="lv3">101~150</li>
+                    <li class="lv4">151~200</li>
+                    <li class="lv5">201~300</li>
+                    <li class="lv6">301~400</li>
+                </ul>
+                <ul class="aqi_descri">
+                    <li>良好</li>
+                    <li>普通</li>
+                    <li>對敏感族群不健康</li>
+                    <li>對所有族群不健康</li>
+                    <li>非常不健康</li>
+                    <li>危害</li>
+                </ul>
+            </div>
+
+            <div class="fixed-city">{{selectedCity}}</div>
+            <div class="fixed-time" v-if="currentTown">{{ currentTown['PublishTime'] }} 更新</div>
+        </div>
+
+        <div class="error" v-if="errored">有錯誤．．．</div>
+
+        <div class="body" v-else v-if="currentTown">
+            <div class="col col-4">
+                <div class="box">
+                    <p class="name">{{ currentTown.SiteName }}</p>
+                    <p class="value" :class="AQILevel(currentTown.AQI)">{{ currentTown.AQI }}</p>
+                </div>
+                <ul class="show_report">
+                    <li>
+                        <p>臭氧 <span>
+               O<sub>3 </sub>(ppb)</span></p>
+                        <p>{{ currentTown['O3'] }}</p>
+                    </li>
+                    <li>
+                        <p>懸浮微粒<span>
+               PM<sub>10 </sub>(μg/m³)</span></p>
+                        <p>{{ currentTown['PM10'] }}</p>
+                    </li>
+                    <li>
+                        <p>細懸浮微粒<span>
+               PM<sub>2.5 </sub>(μg/m³)</span></p>
+                        <p>{{ currentTown['PM2.5'] }}</p>
+                    </li>
+                    <li>
+                        <p>一氧化碳<span>
+               CO (ppm)</span></p>
+                        <p>{{ currentTown['CO'] }}</p>
+                    </li>
+                    <li>
+                        <p>二氧化硫<span>
+               SO2 (ppb)</span></p>
+                        <p>{{ currentTown['SO2'] }}</p>
+                    </li>
+                    <li>
+                        <p>二氧化氮<span>
+               NO2 (ppb)</span></p>
+                        <p>{{ currentTown['NO2'] }}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col col-8">
+                <div class="box-list">
+                    <div class="box box-50" v-for="town in towns" v-key="town.SiteName" @click="handleSelectTown(town)">
+                        <p class="name">{{ town.SiteName }}</p>
+                        <p class="value" :class="AQILevel(town.AQI)">{{ town.AQI }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="col col-4">
+                資料來源：行政院環境保護署
+            </div>
+            <div class="col col-8">
+                Copyright © 2019 HexSchool. All rights reserved.
+            </div>
+        </footer>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.4/vue.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                result: [],
+                selectedCity: "",
+                selectedTown: null,
+                loading: true,
+                errored: false
+            },
+            computed: {
+                cities() {
+                    return this.result.reduce((prev, curr) => {
+                        if (!prev.includes(curr.County)) prev.push(curr.County);
+
+                        return prev;
+                    }, []);
+                },
+                towns() {
+                    return this.result.filter(item => item.County === this.selectedCity);
+                },
+                currentTown() {
+                    return this.selectedTown || (this.towns && this.towns[0]);
+                }
+            },
+            mounted() {
+                axios
+                    .get('https://script.google.com/macros/s/AKfycbxr0zuNDkECMQWpMyHeP9NSvrFptnFrbyZLbDIh2UjeR0RG1rZ7/exec?url=http://opendata2.epa.gov.tw/AQI.json')
+                    .then(response => {
+                        this.result = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.errored = true
+                    })
+                    .finally(() => this.loading = false)
+            },
+            methods: {
+                handleSelectCity(e) {
+                    this.selectedCity = e.target.value;
+                    this.selectedTown = null;
+                },
+                handleSelectTown(town) {
+                    this.selectedTown = town;
+                },
+                AQILevel(num) {
+                    let level;
+                    if (num >= 301) {
+                        level = 6;
+                    } else if (num >= 201) {
+                        level = 5;
+                    } else if (num >= 151) {
+                        level = 4;
+                    } else if (num >= 101) {
+                        level = 3;
+                    } else if (num >= 51) {
+                        level = 2;
+                    } else {
+                        level = 1;
+                    }
+
+                    return [`lv${level}`];
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

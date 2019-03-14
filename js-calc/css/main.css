@@ -1,0 +1,167 @@
+.calc-clean .AC,
+.calc-clean .del {
+    font-size: 24px;
+    font-family: Roboto, Medium;
+    color: #00c4ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    width: 1280px;
+    height: 800px;
+    background-color: #e8e8e8;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calc {
+    min-width: 350px;
+    height: 525px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 109px auto;
+    grid-gap: 8px;
+    background-color: #062145;
+    border-radius: 20px;
+    padding-right: 8px;
+}
+
+.calc-output {
+    grid-column: 1 / 5;
+    grid-row: 1;
+    background-color: #041936;
+    border-radius: 20px 20px 0 0;
+}
+
+.sentence {
+    color: #00c4ff;
+    font-family: Roboto, Regular;
+    text-align: right;
+    padding-top: 16px;
+    padding-right: 20px;
+}
+
+.answer {
+    color: #fff;
+    font-size: 56px;
+    text-align: right;
+    font-family: Roboto, Regular;
+    padding-right: 16px;
+}
+
+.calc-num {
+    grid-column: 1 / 4;
+    grid-row: 2 / 6;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    color: #fff;
+}
+
+.calc-num div {
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-family: Roboto, Regular;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calc-num div:active {
+    background-color: #00c4ff;
+    border-radius: 20px;
+}
+
+.calc-num div:hover {
+    background-color: #00c4ff;
+    border-radius: 20px;
+}
+
+.calc-do {
+    grid-column: 4;
+    grid-row: 2 / 6;
+    display: grid;
+    color: #fff;
+}
+
+.calc-do div {
+    background-color: #041936;
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-family: Roboto, Regular;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calc-do div:active {
+    background-color: #6c00ff;
+    border-radius: 20px;
+}
+
+.calc-do div:hover {
+    background-color: #6c00ff;
+    border-radius: 20px;
+}
+
+.calc-clean {
+    grid-row: 6;
+    grid-column: 1 / 5;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+}
+
+.calc-clean .AC:active {
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.calc-clean .AC:hover {
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.calc-clean .del:active {
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.calc-clean .del:hover {
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.equal {
+    color: #fff;
+    background: linear-gradient(90deg, #00c4ff, #6c00ff);
+    border-radius: 16px;
+    width: 155px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    font-family: Roboto, Medium;
+    font-size: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 30px;
+}
+
+.equal:active {
+    border: 2px solid #fff;
+    transform: scale(1.1);
+}
+
+.equal:hover {
+    border: 2px solid #fff;
+    transform: scale(1.1);
+}

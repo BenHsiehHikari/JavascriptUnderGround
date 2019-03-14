@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style-type: none;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 100px auto;
+        }
+        
+        canvas {
+            background-color: #E8E8E8;
+            position: relative;
+        }
+        
+        #style-control {
+            width: 730px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50px;
+            box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 140px;
+        }
+        
+        #style-control:after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+        
+        #style-control li {
+            float: left;
+        }
+        
+        .pen {
+            margin-left: 40px;
+            margin-top: 19px;
+            margin-right: 43px;
+        }
+        
+        .pen .fas {
+            font-size: 42px;
+        }
+        
+        .pen-size {
+            font-size: 0;
+            margin-top: 16px;
+            margin-right: 40px;
+        }
+        
+        .pen-size h3,
+        .pen-size input {
+            font-size: 20px;
+            display: inline-block;
+        }
+        
+        .pen-size input {
+            width: 74px;
+            background-color: #E8E8E8;
+            border-radius: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px 0;
+            border: 0;
+            margin: 0 8px 0 16px;
+        }
+        
+        .colorpick {
+            margin-top: 15px;
+        }
+        
+        .colorpick div {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+        }
+        
+        .colorpick h3 {
+            margin-right: 16px;
+        }
+        
+        .colorpick h3,
+        .colorpick div {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .colorpick div:nth-child(2) {
+            border: 2px solid #000;
+        }
+        
+        .colorpick div:nth-child(3) {
+            background-color: #000;
+        }
+        
+        .colorpick div:nth-child(4) {
+            background-color: #9BFFCD;
+        }
+        
+        .colorpick div:nth-child(5) {
+            background-color: #00CC99;
+        }
+        
+        .colorpick div:nth-child(6) {
+            background-color: #01936F;
+        }
+        
+        #toolbox {
+            height: 80px;
+            background-color: #fff;
+            position: absolute;
+            width: 1280px;
+            z-index: 2;
+            border: 1px solid red;
+            text-align: center;
+            line-height: 80px;
+        }
+        
+        #toolbox li {
+            display: inline-block;
+            font-size: 25px;
+        }
+        
+        #toolbox li:nth-child(2) {
+            margin-left: 40px;
+            margin-right: 20px;
+        }
+        
+        #toolbox li:nth-child(3) {
+            margin-left: 20px;
+            margin-right: 40px;
+        }
+        
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid rgb(30, 30, 30);
+            pointer-events: none;
+            user-select: none;
+            mix-blend-mode: difference;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul id="toolbox">
+            <li><a :href="href" download>SAVE</a></li>
+            <li @click="reset">CLEAR ALL</li>
+            <li>UNDO</li>
+            <li>REDO</li>
+        </ul>
+        <canvas id="canvas" width="1280px" height="800px"></canvas>
+        <div class="cursor" id="cursor"></div>
+        <ul id="style-control">
+            <li class="pen" v-on:click="toggleIcon(); eraserPaint();"><i :class="classList"></i></li>
+            <li class="pen-size">
+                <h3>SIZE:</h3>
+                <input type="text" v-model="lineWidth">
+                <h3>px</h3>
+            </li>
+            <li class="colorpick">
+                <h3>COLOR:</h3>
+                <div v-on:click="lineColor='#fff'"><i v-if="lineColor == '#fff'" class="fas fa-check"></i></div>
+                <div v-on:click="lineColor='#000'"><i v-if="lineColor == '#000'" class="fas fa-check" style="color:#fff"></i></div>
+                <div v-on:click="lineColor='#9BFFCD'"><i v-if="lineColor == '#9BFFCD'" class="fas fa-check"></i></div>
+                <div v-on:click="lineColor='#00CC99'"><i v-if="lineColor == '#00CC99'" class="fas fa-check"></i></div>
+                <div v-on:click="lineColor='#01936F'"><i v-if="lineColor == '#01936F'" class="fas fa-check"></i></div>
+            </li>
+        </ul>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js'></script>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                canvas: null,
+                ctx: null,
+                isdraw: false,
+                step: 0,
+                firstX: 0,
+                firstY: 0,
+                userData: [],
+                initView: '',
+                lineColor: '#13c5f7',
+                lineWidth: 20,
+                href: '@',
+                isShow: true,
+                downIsShow: true,
+                styleWidth: true,
+                initIcon: 'fas',
+                isDraw: true,
+                isEraser: false
+            },
+            computed: {
+                classList: function() {
+
+                    return {
+                        fas: this.initIcon,
+                        'fa-paint-brush': this.isDraw,
+                        'fa-eraser': this.isEraser
+                    }
+                }
+
+            },
+            methods: {
+                reset() {
+                    this.userData = [];
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                    if (!this.userData.length) {
+                        return true;
+                    }
+                },
+                draw(preX, preY, x, y) {
+                    this.ctx.beginPath()
+                    this.ctx.moveTo(preX, preY)
+                    this.ctx.lineTo(x, y)
+                    this.ctx.closePath()
+                    this.ctx.strokeStyle = this.lineColor;
+                    this.ctx.lineJoin = 'round'
+                    this.ctx.lineWidth = this.lineWidth
+                    this.ctx.stroke()
+                },
+                calcPosition(x, y) {
+                    var rect = canvas.getBoundingClientRect();
+                    return {
+                        x: (x - rect.left) / (rect.right - rect.left) * this.canvas.width,
+                        y: (y - rect.top) / (rect.bottom - rect.top) * this.canvas.height
+                    };
+                },
+                mouseHandler(e) {
+                    this.isdraw = true
+                    let tempObj = this.calcPosition(e.clientX, e.clientY)
+                    this.firstX = tempObj.x
+                    this.firstY = tempObj.y
+                    let tempX = tempObj.x
+                    let tempY = tempObj.y
+                    this.canvas.onmousemove = (e) => {
+                        if (!this.isdraw) return
+                        this.draw(
+                            tempX,
+                            tempY,
+                            this.calcPosition(e.clientX, e.clientY).x,
+                            this.calcPosition(e.clientX, e.clientY).y
+                        )
+                        tempX = this.calcPosition(e.clientX, e.clientY).x
+                        tempY = this.calcPosition(e.clientX, e.clientY).y
+                    }
+                    this.canvas.onmouseup = (e) => {
+                        this.step++
+                            this.userData.push(this.canvas.toDataURL())
+                        this.href = this.canvas.toDataURL()
+                        this.isdraw = false
+                    }
+                },
+                nextToStep() {
+                    if (this.step > this.userData.length - 2) return
+                    this.step++
+                        let canvasPic = new Image()
+                    canvasPic.src = this.userData[this.step]
+                    canvasPic.onload = () => {
+                        this.ctx.drawImage(canvasPic, 0, 0)
+                    }
+                },
+                backToStep() {
+                    this.step--
+                        let canvasPic = new Image()
+                    if (this.step < 0) {
+                        canvasPic.src = this.initView
+                        canvasPic.onload = () => {
+                            this.ctx.drawImage(canvasPic, 0, 0)
+                        }
+                    } else {
+                        canvasPic.src = this.userData[this.step]
+                        canvasPic.onload = () => {
+                            this.ctx.drawImage(canvasPic, 0, 0)
+                        }
+                    }
+                },
+                saveToPic() {
+
+                },
+                toggleIcon: function() {
+                    if (this.isDraw) {
+                        this.isDraw = false;
+                        this.isEraser = true;
+                    } else {
+                        this.isDraw = true;
+                        this.isEraser = false;
+                    }
+                },
+                eraserPaint: function() {
+                    if (this.isEraser) {
+                        this.lineColor = '#E8E8E8';
+                    }
+                }
+            },
+            mounted() {
+                this.canvas = document.getElementById('canvas')
+                this.ctx = this.canvas.getContext('2d')
+                this.initView = this.canvas.toDataURL()
+                this.canvas.addEventListener('mousedown', this.mouseHandler)
+            },
+            beforeDestroy() {
+                this.canvas.removeEventListener('mousedown', this.mouseHandler);
+            }
+        })
+    </script>
+</body>
+
+</html>

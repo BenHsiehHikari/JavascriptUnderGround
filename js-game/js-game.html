@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {}
+        
+        #app {
+            width: 1280px;
+            height: 800px;
+            background-color: #FF9D00;
+            margin: 80px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .game-intro {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+        
+        .game-intro h1 {
+            font-size: 240px;
+            color: #fff;
+            text-shadow: 12px 0px 0px #000;
+            font-family: Roboto Condensed, Bold;
+            float: left;
+        }
+        
+        .game-intro .title {
+            float: left;
+        }
+        
+        .game-intro .title h2 {
+            font-size: 96px;
+            font-weight: bold;
+        }
+        
+        .title .seconds {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .game-intro .title span {
+            font-size: 44px;
+            color: #fff;
+            font-weight: bold;
+            border-bottom: 12px double #fff;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .game-start {
+            width: 350px;
+            height: 58px;
+            background-color: #000;
+            color: #FF9D00;
+            font-weight: 900;
+            font-size: 36px;
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .game-start::after {
+            position: absolute;
+            top: 58px;
+            left: 13%;
+            font-weight: 500;
+            content: "try to answer more as you can";
+            font-size: 18px;
+            color: #fff;
+            font-style: italic;
+        }
+        /**seconds-panel*/
+        
+        .game-doing::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+        
+        .score-panel {
+            float: left;
+            margin-right: 128px;
+        }
+        
+        .score-panel h3:nth-of-type(1) {
+            font-size: 30px;
+            color: #fff;
+            border: 4px solid #fff;
+            padding: 8px 16px;
+            font-weight: bold;
+        }
+        
+        .score-panel h3:nth-of-type(2) {
+            font-size: 30px;
+            color: #FF9D00;
+            background-color: #fff;
+            font-weight: bold;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 12px 16px;
+        }
+        
+        .score-panel .score-panerl--show {
+            display: inline-block;
+            font-size: 44px;
+            color: #000;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        
+        .countdown {
+            float: right;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0;
+        }
+        
+        .countdown h2 {
+            display: inline-block;
+            font-size: 96px;
+            font-style: italic;
+        }
+        
+        .countdown h2:nth-of-type(2) {
+            margin: 0 20px;
+        }
+        
+        .mathQquestion {
+            font-size: 0px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 104px;
+        }
+        
+        .mathQquestion .mathQquestion-num1,
+        .mathQquestion .mathQquestion-num2 {
+            font-size: 112px;
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .mathQquestion .mathQquestion-operation,
+        .mathQquestion .mathQquestion-equal {
+            font-size: 90px;
+            color: #fff;
+            font-weight: bold;
+            margin: 0 50px;
+        }
+        
+        .output {
+            position: relative;
+            text-align: center;
+        }
+        
+        .mathQquestion-output {
+            width: 300px;
+            font-size: 112px;
+            color: #000;
+            font-weight: bold;
+            background-color: #fff;
+            padding: 0 42px;
+        }
+        
+        .output::after {
+            position: absolute;
+            font-size: 24px;
+            content: 'press enter to answer';
+            color: #fff;
+            left: 50%;
+            transform: translateX(-50%);
+            font-style: italic;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    開始 讀秒 亂數1位數 四則運算亂數 解題後 分數增加 在亂數出題 檢查秒數 在亂數出題 解題後 分數增加 在亂數出題 快到0時間到 - 最終畫面
+    <div id="app">
+
+    </div>
+    <script>
+        var vm = document.querySelector("#app");
+        var time_remain = 60;
+        var quizNumbers = [];
+        var operatorList = ['+', '-', 'x', '÷'];
+        var operator = '+';
+        var score = '000';
+        var number;
+
+        function init() {
+            init =
+                `
+                <div class="game-intro">
+                    <h1>60</h1>
+                    <div class="title">
+                        <h2 class="seconds">SECONDS<span>+−×÷</span></h2>
+                        <h2>CHALLENGE</h2>
+                    </div>
+                </div>
+                <div class="game-start">
+                    START!
+                </div>
+            `;
+
+            vm.innerHTML = init;
+            startG = document.querySelector('.game-start');
+        }
+        init();
+
+        function isPrime(num) {
+            for (var i = 2; i < num; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+
+        function getFactors(number, digits) {
+            let factors = Array
+                .from(Array(number + 1), (_, i) => i)
+                .filter(i => number % i === 0)
+            if (digits) {
+                factors = factors.filter(factor => (factor + '').length === digits)
+            }
+            return factors
+        }
+
+        function getDigits(d) {
+            switch (d) {
+                case 1:
+                    return Math.floor((Math.random() * 10) + 1);
+                case 2:
+                    return Math.floor((Math.random() * 100) + 10);
+                case 3:
+                    return Math.floor((Math.random() * 100) + 100);
+            }
+        }
+
+        function getArrayRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function randOp() {
+            let order = Math.floor(Math.random() * 100) % 4;
+            operator = operatorList[order];
+        }
+
+
+        function setQuiz() {
+            let digit;
+            let result = []
+            switch (true) {
+                case (time_remain >= 40 && time_remain <= 60):
+                    {
+                        digit = 1
+                        break;
+                    }
+                case (time_remain >= 20 && time_remain <= 40):
+                    {
+                        digit = 2
+                        break;
+                    }
+                case (time_remain >= 0 && time_remain <= 20):
+                    {
+                        digit = 3
+                        break;
+                    }
+            }
+
+            let firstN = getDigits(digit);
+            let secondN = getDigits(digit);
+
+            if (firstN < secondN) {
+                let temp = firstN;
+                firstN = secondN;
+                secondN = temp;
+            }
+
+            if (operator == '÷' && (firstN % secondN !== 0)) {
+                while (isPrime(firstN)) firstN = getDigits(digit);
+                while (isPrime(secondN)) secondN = getDigits(digit);
+
+                let secondFactor = getFactors(secondN, digit);
+                console.log('secondFactor: ', secondFactor);
+                secondN = getArrayRandomItem(getFactors(firstN, digit));
+                console.log('second: ', secondN);
+            }
+            result = result.concat([firstN, secondN]);
+            quizNumbers = result;
+        }
+
+
+
+
+
+
+
+        function numbrFormat(number, digits) {
+            while ((number + '').length < digits) {
+                number = '0' + number
+            }
+            return number
+        }
+
+        function plusPoint(value) {
+            let score = parseInt(this.score);
+            if ((score + value) >= 0) score += value;
+            score = numbrFormat(score, 3);
+            this.score = score;
+        }
+
+        function checkOutput(value) {
+            switch (operator) {
+                case '+':
+                    return +value === (+quizNumbers[0] + +quizNumbers[1])
+                case '-':
+                    return +value === (+quizNumbers[0] - +quizNumbers[1])
+                case 'x':
+                    return +value === (+quizNumbers[0] * +quizNumbers[1])
+                case '÷':
+                    return +value === (+quizNumbers[0] / +quizNumbers[1])
+            }
+        }
+
+        function timeReducer() {
+
+            let Timer = setInterval(function() {
+                if (time_remain === 60) {
+                    document.querySelector(".countdown-min").innerText = "01";
+                    countDown.innerText = "00";
+                } else {
+                    document.querySelector(".countdown-min").innerText = "00";
+                    if (time_remain < 10) {
+                        countDown.innerText = "0" + time_remain;
+                    } else {
+                        countDown.innerText = time_remain;
+                    }
+                }
+                time_remain -= 1;
+                if (time_remain <= 0) {
+                    clearInterval(Timer);
+                    countDown.innerText = "0" + time_remain;
+                }
+            }, 1000);
+            return Timer;
+        }
+
+
+        function gameDoing() {
+            setQuiz();
+            randOp();
+            doing =
+                `
+                <div class="game-doing">
+                    <div class="score-panel">
+                        <h3>60 SECONDS CHALLENGE</h3>
+                        <h3>SCORE</h3>
+                        <span class="score-panerl--show">${score}</span>
+                    </div>
+                    <div class="countdown">
+                        <h2 class="countdown-min">01</h2>
+                        <h2 class="countdown-dot">:</h2>
+                        <h2 class="countdown-sec">00</h2>
+                    </div>
+                </div>
+                <div class="mathQquestion">
+                    <h2 class="mathQquestion-num1">${quizNumbers[0]}</h2>
+                    <h2 class="mathQquestion-operation">${operator}</h2>
+                    <h2 class="mathQquestion-num2">${quizNumbers[1]}</h2>
+                    <h2 class="mathQquestion-equal">=</h2>
+                    <div class="output">
+                        <input type="text" class="mathQquestion-output" placeholder=""/>
+                    </div>
+                </div>
+            `;
+            vm.innerHTML = doing;
+            showScore = document.querySelector('.score-panerl--show');
+            countDown = document.querySelector('.countdown-sec');
+            enterAnwser = document.querySelector('.mathQquestion-output');
+            enterAnwser.addEventListener('keyup', function(e) {
+                var key = e.which || e.keyCode;
+                if (key === 13) { // 13 is enter
+
+                    value = e.target.value;
+                    if (typeof parseInt(value) !== 'number') {
+                        e.target.value = '';
+                        return;
+                    }
+                    if (checkOutput(value)) {
+                        if (time_remain <= 20 && time_remain >= 0) {
+                            plusPoint(5);
+                        } else {
+                            plusPoint(1);
+                        }
+                    } else {
+                        plusPoint(-1);
+                    }
+                    randOp();
+                    setQuiz();
+                    document.querySelector('.mathQquestion-num1').innerText = quizNumbers[0];
+                    document.querySelector('.mathQquestion-num2').innerText = quizNumbers[1];
+                    e.target.value = '';
+                }
+            });
+        }
+
+        startG.addEventListener('click', () => {
+            gameDoing();
+            timeReducer();
+
+        });
+    </script>
+</body>
+
+</html>
