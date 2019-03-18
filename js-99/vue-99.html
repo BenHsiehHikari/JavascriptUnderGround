@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div class="container" id="app">
+        <div class="card-body">
+            <div class="card-intro">
+                <div class="line mb-auto"></div>
+                <h1>九九乘法表</h1>
+                <p>MULTIPLICATION CHART</p>
+                <div class="line mt-auto"></div>
+            </div>
+            <div class="card clearfix" v-for="num1 in blocks">
+                <div class="col-6">
+                    <h1>{{num1}}</h1>
+                    <div v-for="y1 in 3">
+                        <span>{{num1}}</span>x<span>{{y1}}</span>=<span>{{num1*y1}}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div v-for="y2 in blocks2">
+                        <span>{{num1}}</span>x<span>{{y2}}</span>=<span>{{num1*y2}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js'></script>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {},
+            computed: {
+                blocks: function() {
+                    let arr = [];
+                    for (let i = 2; i <= 9; i++) {
+                        arr.push(i)
+                    }
+                    return arr;
+                },
+                blocks2: function() {
+                    let arr = [];
+                    for (let i = 4; i <= 9; i++) {
+                        arr.push(i)
+                    }
+                    return arr;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
