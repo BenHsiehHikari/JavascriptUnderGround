@@ -21,15 +21,15 @@ const timeclock = {
 };
 const calculator = {
     template: `
-    <div class="page ContactPage">
-      <a href=""><h1>作品展示</h1></a>
+    <div class="page calculator">
+      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-calc/index.html"><h1>作品展示</h1></a>
     </div>
   `
 };
 const timezone = {
     template: `
-    <div class="page ContactPage">
-      <a href=""><h1>作品展示</h1></a>
+    <div class="page timezone">
+      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-timezone/index.html"><h1>作品展示</h1></a>
     </div>
   `
 };
