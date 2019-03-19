@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>六角學院 - 新手Javascript地下層</title>
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <div id="app">
+      <nav>
+        <router-link to="/">首頁</router-link>
+        <router-link to="/99math">第一關卡 - 九九乘法表</router-link>
+        <router-link to="/timeclock">第二關卡 - 時鐘 </router-link>
+        <router-link to="/calculator">第三關卡 - 計算機</router-link>
+        <router-link to="/timezone">第四關卡 - 時區 </router-link>
+      </nav>
+      <transition name="page" mode="out-in">
+        <router-view></router-view>
+      </transition>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.js"></script>
+    <script src="all-dist.js"></script>
+  </body>
+</html>
