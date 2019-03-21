@@ -249,15 +249,10 @@
 </head>
 
 <body>
-    <div id="app" class="container">
+    <div class="container">
         <div class="header">
             <div class="col col-4">
                 <p class="title">空氣品質指標 (AQI)</p>
-                <select v-value="selectedCity" @change="handleSelectCity($event)">
-                    <option value="" disabled="disabled" selected="selected">請選擇地區</option>
-                    <option v-for="city in cities" v-value="city">{{city}}</option>
-                    <option value=""></option>
-                </select>
             </div>
 
             <div class="col col-8">
@@ -278,61 +273,21 @@
                     <li>危害</li>
                 </ul>
             </div>
-
-            <div class="fixed-city">{{selectedCity}}</div>
-            <div class="fixed-time" v-if="currentTown">{{ currentTown['PublishTime'] }} 更新</div>
         </div>
 
-        <div class="error" v-if="errored">有錯誤．．．</div>
+        <!-- <div class="error">有錯誤．．．</div> -->
 
-        <div class="body" v-else v-if="currentTown">
+        <div class="body">
             <div class="col col-4">
-                <div class="box">
-                    <p class="name">{{ currentTown.SiteName }}</p>
-                    <p class="value" :class="AQILevel(currentTown.AQI)">{{ currentTown.AQI }}</p>
-                </div>
-                <ul class="show_report">
-                    <li>
-                        <p>臭氧 <span>
-                                O<sub>3 </sub>(ppb)</span></p>
-                        <p>{{ currentTown['O3'] }}</p>
-                    </li>
-                    <li>
-                        <p>懸浮微粒<span>
-                                PM<sub>10 </sub>(μg/m³)</span></p>
-                        <p>{{ currentTown['PM10'] }}</p>
-                    </li>
-                    <li>
-                        <p>細懸浮微粒<span>
-                                PM<sub>2.5 </sub>(μg/m³)</span></p>
-                        <p>{{ currentTown['PM2.5'] }}</p>
-                    </li>
-                    <li>
-                        <p>一氧化碳<span>
-                                CO (ppm)</span></p>
-                        <p>{{ currentTown['CO'] }}</p>
-                    </li>
-                    <li>
-                        <p>二氧化硫<span>
-                                SO2 (ppb)</span></p>
-                        <p>{{ currentTown['SO2'] }}</p>
-                    </li>
-                    <li>
-                        <p>二氧化氮<span>
-                                NO2 (ppb)</span></p>
-                        <p>{{ currentTown['NO2'] }}</p>
-                    </li>
-                </ul>
+
             </div>
             <div class="col col-8">
                 <div class="box-list">
-                    <div class="box box-50" v-for="town in towns" v-key="town.SiteName" @click="handleSelectTown(town)">
-                        <p class="name">{{ town.SiteName }}</p>
-                        <p class="value" :class="AQILevel(town.AQI)">{{ town.AQI }}</p>
-                    </div>
+
                 </div>
             </div>
         </div>
+
         <footer>
             <div class="col col-4">
                 資料來源：行政院環境保護署
@@ -342,76 +297,195 @@
             </div>
         </footer>
     </div>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.4/vue.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script>
+
     <script>
-        var vm = new Vue({
-            el: "#app",
-            data: {
-                result: [],
-                selectedCity: "",
-                selectedTown: null,
-                loading: true,
-                errored: false
-            },
-            computed: {
-                cities() {
-                    return this.result.reduce((prev, curr) => {
-                        if (!prev.includes(curr.County)) prev.push(curr.County);
-
-                        return prev;
-                    }, []);
-                },
-                towns() {
-                    return this.result.filter(item => item.County === this.selectedCity);
-                },
-                currentTown() {
-                    return this.selectedTown || (this.towns && this.towns[0]);
+        let selectPosition = document.querySelector('.header .col-4');
+        let information = document.querySelector('.header');
+        let showDetail = document.querySelector('.col-8 .box-list');
+        let sidebar = document.querySelector('.body .col-4');
+        let selectedTown = null;
+        let request = obj => {
+            return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", obj.url);
+                if (obj.headers) {
+                    Object.keys(obj.headers).forEach(key => {
+                        xhr.setRequestHeader(key, obj.headers[key]);
+                    });
                 }
-            },
-            mounted() {
-                axios
-                    .get(
-                        'https://script.google.com/macros/s/AKfycbxr0zuNDkECMQWpMyHeP9NSvrFptnFrbyZLbDIh2UjeR0RG1rZ7/exec?url=http://opendata2.epa.gov.tw/AQI.json'
-                    )
-                    .then(response => {
-                        this.result = response.data
-                    })
-                    .catch(error => {
-                        console.log(error)
-                        this.errored = true
-                    })
-                    .finally(() => this.loading = false)
-            },
-            methods: {
-                handleSelectCity(e) {
-                    this.selectedCity = e.target.value;
-                    this.selectedTown = null;
-                },
-                handleSelectTown(town) {
-                    this.selectedTown = town;
-                    console.log(his.selectedTown);
-                },
-                AQILevel(num) {
-                    let level;
-                    if (num >= 301) {
-                        level = 6;
-                    } else if (num >= 201) {
-                        level = 5;
-                    } else if (num >= 151) {
-                        level = 4;
-                    } else if (num >= 101) {
-                        level = 3;
-                    } else if (num >= 51) {
-                        level = 2;
+                xhr.onload = () => {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        resolve(xhr.response);
                     } else {
-                        level = 1;
+                        reject(xhr.statusText);
                     }
+                };
+                xhr.onerror = () => reject(xhr.statusText);
+                xhr.send(obj.body);
+            });
+        };
 
-                    return [`lv${level}`];
-                }
+        request({
+                url: 'https://script.google.com/macros/s/AKfycbxr0zuNDkECMQWpMyHeP9NSvrFptnFrbyZLbDIh2UjeR0RG1rZ7/exec?url=http://opendata2.epa.gov.tw/AQI.json'
+            })
+            .then(data => {
+                let results = JSON.parse(data);
+                createSelects(city(results));
+                handleSelectCity(results);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+        function city(results) {
+            return results.reduce((prev, curr) => {
+                if (!prev.includes(curr.County)) prev.push(curr.County);
+
+                return prev;
+            }, []);
+        }
+
+        function createSelects(cities) {
+            let Select = document.createElement('select');
+            let optionDefault = document.createElement('option');
+            optionDefault.setAttribute("disabled", "disabled");
+            optionDefault.setAttribute("selected", "selected");
+            optionDefault.textContent = "請選擇地區";
+            Select.appendChild(optionDefault);
+
+            for (let value of cities) {
+                let Option = document.createElement('option');
+                Option.textContent = value;
+                Select.appendChild(Option);
             }
-        });
+            selectPosition.appendChild(Select);
+        }
+
+        function handleSelectCity(results) {
+            let selectedCity = '';
+            let test = document.querySelector('select');
+            test.addEventListener('change', (e) => {
+                showDetail.innerHTML = "";
+                selectedCity = e.target.value;
+                selectedTown = null;
+                filtertown(results, selectedCity);
+                let lol = filtertown(results, selectedCity);
+                showPanel(Object.assign({}, lol), lol);
+                showSiderbar(current(lol));
+                status(selectedCity, current(lol));
+            });
+        }
+
+        function filtertown(results, selectedCity) {
+            return results.filter(item => item.County === selectedCity);
+        }
+
+
+        function handleSelectTown(town) {
+            selectedTown = town;
+        }
+
+        function current(towns) {
+            return selectedTown || (towns && towns[0]);
+        }
+
+        function showSiderbar(currentTown) {
+            let sideInfo =
+                `
+                <div class="box">
+                    <p class="name">${currentTown.SiteName}</p>
+                    <p class="value ${AQIlevel(currentTown.AQI)}">${currentTown.AQI}</p>
+                </div>
+                <ul class="show_report">
+                    <li>
+                        <p>臭氧 <span>
+                                O<sub>3 </sub>(ppb)</span></p>
+                        <p>${currentTown['O3']}</p>
+                    </li>
+                    <li>
+                        <p>懸浮微粒<span>
+                                PM<sub>10 </sub>(μg/m³)</span></p>
+                        <p>${currentTown['PM10']}</p>
+                    </li>
+                    <li>
+                        <p>細懸浮微粒<span>
+                                PM<sub>2.5 </sub>(μg/m³)</span></p>
+                        <p>${currentTown['PM2.5']}</p>
+                    </li>
+                    <li>
+                        <p>一氧化碳<span>
+                                CO (ppm)</span></p>
+                        <p>${currentTown['CO']}</p>
+                    </li>
+                    <li>
+                        <p>二氧化硫<span>
+                                SO2 (ppb)</span></p>
+                        <p>${currentTown['SO2']}</p>
+                    </li>
+                    <li>
+                        <p>二氧化氮<span>
+                                NO2 (ppb)</span></p>
+                        <p>${currentTown['NO2']}</p>
+                    </li>
+                </ul>
+                `;
+            sidebar.innerHTML = sideInfo;
+        }
+
+        function showPanel(filterData, lol) {
+            //console.log(filterData);
+            for (let key in filterData) {
+                let Detail =
+                    `
+                    <div class="box box-50">
+                        <p class="name">${filterData[key].SiteName}</p>
+                        <p class="value ${AQIlevel(filterData[key].AQI)}">
+                            ${filterData[key].AQI}
+                        </p>
+                    </div>
+                    `;
+                showDetail.innerHTML += Detail;
+            }
+            let box50 = document.querySelectorAll('.box-50');
+            for (let i = 0; i < box50.length; i++) {
+                box50[i].addEventListener('click', function(e) {
+                    handleSelectTown(filterData[i]);
+                    showSiderbar(current(lol));
+                })
+            }
+        }
+
+
+        function AQIlevel(num) {
+            let lv;
+            if (num >= 301) {
+                lv = 6;
+            } else if (num >= 201) {
+                lv = 5;
+            } else if (num >= 151) {
+                lv = 4;
+            } else if (num >= 101) {
+                lv = 3;
+            } else if (num >= 51) {
+                lv = 2;
+            } else {
+                lv = 1;
+            }
+            return [`lv${lv}`];
+        }
+
+        function status(selected, publicTime) {
+
+            var fixedcity = document.createElement('div');
+            fixedcity.classList.add('fixed-city');
+            fixedcity.innerText = `${selected}`;
+
+            var fixedtime = document.createElement('div');
+            fixedtime.classList.add('fixed-time');
+            fixedtime.innerText = `${publicTime['PublishTime']}` + ' 更新';
+            information.appendChild(fixedcity);
+            information.appendChild(fixedtime);
+        }
     </script>
 </body>
 
