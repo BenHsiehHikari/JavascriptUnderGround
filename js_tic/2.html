@@ -7,12 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            margin: 80px 0;
+        }
+        
         #app {
             width: 1280px;
             height: 800px;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             background-color: #FF6D70;
         }
         
@@ -66,6 +73,91 @@
             border-right: none;
             border-bottom: none;
         }
+        
+        .score {
+            width: 540px;
+            display: flex;
+        }
+        
+        .X .mark {
+            width: 64px;
+            display: inline-block;
+            border-radius: 8px 0px 0px 8px;
+            border: 4px solid #000;
+            box-sizing: border-box;
+            font-size: 40px;
+            text-align: center;
+            background-color: #ED494C;
+            color: #fff;
+        }
+        
+        .O .mark {
+            width: 64px;
+            display: inline-block;
+            border-radius: 0px 8px 8px 0px;
+            border: 4px solid #000;
+            box-sizing: border-box;
+            font-size: 40px;
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .score .X,
+        .score .O {
+            display: flex;
+            font-size: 0;
+        }
+        
+        .score .point {
+            width: 179px;
+            font-size: 16px;
+            display: inline-block;
+            background-color: #fff;
+            border: 4px solid #000;
+            height: 64px;
+            box-sizing: border-box;
+            font-size: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .vs {
+            width: 70px;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px 8px 0px 0px;
+            font-size: 25px;
+            padding-top: 20px;
+        }
+        
+        .truning {
+            display: flex;
+            justify-content: space-between;
+            width: 540px;
+            margin-top: 8px;
+            margin-bottom: 24.5px;
+            height: 24px;
+        }
+        
+        .restart {
+            width: 540px;
+            background-color: #ED494C;
+            border-radius: 8px 8px 8px 8px;
+            font-size: 48px;
+            line-height: 89px;
+            text-align: center;
+            color: #fff;
+            margin-top: 23.5px;
+        }
+        
+        .container .box {
+            font-size: 96px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -83,8 +175,8 @@
             </div>
         </div>
         <div class="truning">
-            <div class="Otruning" style="color:yellow"></div>
-            <div class="Xtruning" style="color:pink"></div>
+            <div class="Otruning" style="color:#fff"></div>
+            <div class="Xtruning" style="color:#fff"></div>
         </div>
         <div class="container">
             <div data-id="1" class="box"></div>
@@ -122,6 +214,10 @@
         var Xscores = JSON.parse(localStorage.getItem('Xscores')) || [];
         var Oscores = JSON.parse(localStorage.getItem('Oscores')) || [];
 
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        Xpoint.innerHTML = "0";
+        Opoint.innerHTML = "0";
+
         function addMark(event) {
             if (event.target.innerHTML.length === 0) {
                 if (turn % 2 === 0) {
@@ -130,14 +226,14 @@
                     event.target.innerHTML = "X";
                     Xtruning.innerHTML = "YOUR TURN!";
                     Otruning.innerHTML = "";
-                    event.target.style.background = "yellow";
+                    event.target.style.color = "#fff";
                 } else {
                     oMarks.push(event.currentTarget.dataset.id);
                     console.log(oMarks);
                     event.target.innerHTML = "O";
                     Otruning.innerHTML = "YOUR TURN!";
                     Xtruning.innerHTML = "";
-                    event.target.style.background = "green";
+                    event.target.style.color = "#000";
                 }
             } else {
                 alert("sdadsas");
@@ -157,7 +253,6 @@
                     if (marksArray.indexOf(win[i][j]) !== -1) {
                         numWins++;
                     }
-
                     if (numWins === 3) {
                         var Xscore = 0;
                         var Oscore = 0;
@@ -172,7 +267,6 @@
                             Oscore++;
                             Oscores.push(Oscore);
                             localStorage.setItem('Oscores', JSON.stringify(Oscores));
-
                         }
                         Opoint.innerHTML = SumDatareduce(Oscores);
                     }
@@ -180,16 +274,12 @@
             }
         }
 
-
-
         function SumDatareduce(arr) {
             return arr.reduce((a, b) => a + b);
         }
-
         for (let i = 0; i < Boxes.length; i++) {
             Boxes[i].addEventListener('click', addMark);
         }
-
         restart.addEventListener('click', function() {
             let boxs = document.querySelectorAll('.box');
             [].forEach.call(boxs, function(box) {
