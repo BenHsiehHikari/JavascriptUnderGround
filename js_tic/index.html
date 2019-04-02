@@ -157,16 +157,8 @@
 
 <body>
     <div id="app">
-
     </div>
     <script>
-        let SIZE = 3,
-            empty = "&nbsp;",
-            boxes = [],
-            turn = "X",
-            score,
-            moves;
-
         //初始畫面
         function gameReady() {
             let content =
@@ -196,6 +188,295 @@
             document.querySelector('#app').innerHTML = content;
         }
         gameReady();
+
+        function second() {
+            var play = `
+            <div class="score">
+                <div class="X">
+                    <span class="mark">X</span>
+                    <span class="point"></span>
+                </div>
+                <div class="vs">vs</div>
+                <div class="O">
+                    <span class="point"></span>
+                    <span class="mark">O</span>
+                </div>
+            </div>
+            <div class="truning">
+                <div class="Otruning" style="color:#fff"></div>
+                <div class="Xtruning" style="color:#fff"></div>
+            </div>
+            <div class="container">
+                <div data-id="1" class="box"></div>
+                <div data-id="2" class="box"></div>
+                <div data-id="3" class="box"></div>
+                <div data-id="4" class="box"></div>
+                <div data-id="5" class="box"></div>
+                <div data-id="6" class="box"></div>
+                <div data-id="7" class="box"></div>
+                <div data-id="8" class="box"></div>
+                <div data-id="9" class="box"></div>
+            </div>
+            <div class="restart">RESTART</div>
+            `;
+            document.querySelector('#app').innerHTML = play;
+            var playStyle = document.getElementsByTagName("head")[0].querySelector('style');
+            playStyle.innerHTML = `
+            body {
+            display: flex;
+            justify-content: center;
+            margin: 80px 0;
+            }
+
+            #app {
+            width: 1280px;
+            height: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #FF6D70;
+            }
+
+            .container {
+            width: 540px;
+            height: 540px;
+            display: grid;
+            grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+            }
+
+            .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1.5px solid rgb(208, 19, 22);
+            }
+
+            .box:nth-child(1) {
+            border-top: none;
+            border-left: none;
+            }
+
+            .box:nth-child(2) {
+            border-top: none;
+            }
+
+            .box:nth-child(3) {
+            border-top: none;
+            border-right: none;
+            }
+
+            .box:nth-child(4) {
+            border-left: none;
+            }
+
+            .box:nth-child(6) {
+            border-right: none;
+            }
+
+            .box:nth-child(7) {
+            border-left: none;
+            border-bottom: none;
+            }
+
+            .box:nth-child(8) {
+            border-bottom: none;
+            }
+
+            .box:nth-child(9) {
+            border-right: none;
+            border-bottom: none;
+            }
+
+            .score {
+            width: 540px;
+            display: flex;
+            }
+
+            .X .mark {
+            width: 64px;
+            display: inline-block;
+            border-radius: 8px 0px 0px 8px;
+            border: 4px solid #000;
+            box-sizing: border-box;
+            font-size: 40px;
+            text-align: center;
+            background-color: #ED494C;
+            color: #fff;
+            }
+
+            .O .mark {
+            width: 64px;
+            display: inline-block;
+            border-radius: 0px 8px 8px 0px;
+            border: 4px solid #000;
+            box-sizing: border-box;
+            font-size: 40px;
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+            }
+
+            .score .X,
+            .score .O {
+            display: flex;
+            font-size: 0;
+            }
+
+            .score .point {
+            width: 179px;
+            font-size: 16px;
+            display: inline-block;
+            background-color: #fff;
+            border: 4px solid #000;
+            height: 64px;
+            box-sizing: border-box;
+            font-size: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            }
+
+            .vs {
+            width: 70px;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px 8px 0px 0px;
+            font-size: 25px;
+            padding-top: 20px;
+            }
+
+            .truning {
+            display: flex;
+            justify-content: space-between;
+            width: 540px;
+            margin-top: 8px;
+            margin-bottom: 24.5px;
+            height: 24px;
+            }
+
+            .restart {
+            width: 540px;
+            background-color: #ED494C;
+            border-radius: 8px 8px 8px 8px;
+            font-size: 48px;
+            line-height: 89px;
+            text-align: center;
+            color: #fff;
+            margin-top: 23.5px;
+            }
+
+            .container .box {
+            font-size: 96px;
+            text-align: center;
+            }`;
+        }
+        document.querySelector('.start--game').addEventListener('click', function() {
+            second();
+            var Boxes = document.querySelectorAll('.box');
+            var turn = 1;
+            var xMarks = [];
+            var oMarks = [];
+            var win = [
+                ["1", "2", "3"],
+                ["4", "5", "6"],
+                ["7", "8", "9"],
+                ["1", "4", "7"],
+                ["2", "5", "8"],
+                ["3", "6", "9"],
+                ["1", "5", "9"],
+                ["3", "5", "7"]
+            ];
+            var Xpoint = document.querySelector('.X .point');
+            var Opoint = document.querySelector('.O .point');
+            var Otruning = document.querySelector('.truning .Otruning');
+            var Xtruning = document.querySelector('.truning .Xtruning');
+            var restart = document.querySelector('.restart');
+            var Xscores = JSON.parse(localStorage.getItem('Xscores')) || [];
+            var Oscores = JSON.parse(localStorage.getItem('Oscores')) || [];
+
+            const reducer = (accumulator, currentValue) => accumulator + currentValue;
+            Xpoint.innerHTML = "0";
+            Opoint.innerHTML = "0";
+
+            function addMark(event) {
+                if (event.target.innerHTML.length === 0) {
+                    if (turn % 2 === 0) {
+                        xMarks.push(event.currentTarget.dataset.id);
+                        console.log(xMarks);
+                        event.target.innerHTML = "X";
+                        Xtruning.innerHTML = "YOUR TURN!";
+                        Otruning.innerHTML = "";
+                        event.target.style.color = "#fff";
+                    } else {
+                        oMarks.push(event.currentTarget.dataset.id);
+                        console.log(oMarks);
+                        event.target.innerHTML = "O";
+                        Otruning.innerHTML = "YOUR TURN!";
+                        Xtruning.innerHTML = "";
+                        event.target.style.color = "#000";
+                    }
+                } else {
+                    alert("sdadsas");
+                }
+                turn++;
+                checkWin(xMarks, "X");
+                checkWin(oMarks, "O");
+                if (turn === 10) {
+                    alert("draw");
+                }
+            }
+
+            function checkWin(marksArray, name) {
+                for (i = 0; i < win.length; i++) {
+                    var numWins = 0;
+                    for (let j = 0; j < win[i].length; j++) {
+                        if (marksArray.indexOf(win[i][j]) !== -1) {
+                            numWins++;
+                        }
+                        if (numWins === 3) {
+                            var Xscore = 0;
+                            var Oscore = 0;
+                            alert("Game Over" + name + "winsssssss");
+                            if (name === "X") {
+                                Xscore++;
+                                Xscores.push(Xscore);
+                                localStorage.setItem('Xscores', JSON.stringify(Xscores));
+                            }
+                            Xpoint.innerHTML = SumDatareduce(Xscores);
+                            if (name === "O") {
+                                Oscore++;
+                                Oscores.push(Oscore);
+                                localStorage.setItem('Oscores',
+                                    JSON.stringify(Oscores));
+                            }
+                            Opoint.innerHTML = SumDatareduce(Oscores);
+                        }
+                    }
+                }
+            }
+
+            function SumDatareduce(arr) {
+                return arr.reduce((a, b) => a + b);
+            }
+            for (let i = 0; i < Boxes.length; i++) {
+                Boxes[i].addEventListener('click', addMark);
+            }
+            restart.addEventListener('click', function() {
+                let boxs = document.querySelectorAll('.box');
+                [].forEach.call(boxs, function(box) {
+                    box.innerHTML = "";
+                    box.style.background = "none";
+                });
+                xMarks.length = 0;
+                console.log(xMarks);
+                oMarks.length = 0;
+                console.log(xMarks);
+            });
+        })
     </script>
 </body>
 
