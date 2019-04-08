@@ -10,19 +10,19 @@ var HomePage = { template: '\n    <div class="page HomePage">\n    </div>\n  ' }
     timezone = { template: '\n    <div class="page timezone">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-timezone/index.html"><h1>作品展示</h1></a>\n    </div>\n  ' },
 
     air = {
-        template: '\n    <div class="page air">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-timezone/index.html"><h1>作品展示</h1></a>\n    </div>\n  '
+        template: '\n    <div class="page air">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-air/native.html"><h1>作品展示</h1></a>\n    </div>\n  '
     },
 
     mathgame = {
-        template: '\n    <div class="page mathgame">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-timezone/index.html"><h1>作品展示</h1></a>\n    </div>\n  '
+        template: '\n    <div class="page mathgame">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-game/js-game.html"><h1>作品展示</h1></a>\n    </div>\n  '
     },
 
     canvasdraw = {
-        template: '\n    <div class="page canvasdraw">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-timezone/index.html"><h1>作品展示</h1></a>\n    </div>\n  '
+        template: '\n    <div class="page canvasdraw">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-canvas/index.html"><h1>作品展示</h1></a>\n    </div>\n  '
     },
 
     OOXX = {
-        template: '\n    <div class="page OOXX">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js-timezone/index.html"><h1>作品展示</h1></a>\n    </div>\n  '
+        template: '\n    <div class="page OOXX">\n      <a href="https://benhsiehhikari.github.io/JavascriptUnderGround/js_tic/index.html"><h1>作品展示</h1></a>\n    </div>\n  '
     },
 
     NotFoundPage = { template: '\n    <div class="page NotFoundPage">\n      <h1>404</h1>\n    </div>\n  ' },
