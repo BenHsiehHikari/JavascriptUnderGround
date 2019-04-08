@@ -211,6 +211,7 @@
         var score = '000';
         var number;
 
+        //  初始畫面
         function init() {
             init =
                 `
@@ -225,7 +226,6 @@
                     START!
                 </div>
             `;
-
             vm.innerHTML = init;
             startG = document.querySelector('.game-start');
         }
@@ -265,12 +265,14 @@
         function randOp() {
             let order = Math.floor(Math.random() * 100) % 4;
             operator = operatorList[order];
+            return operator;
         }
-
 
         function setQuiz() {
             let digit;
-            let result = []
+            let result = [];
+
+
             switch (true) {
                 case (time_remain >= 40 && time_remain <= 60):
                     {
@@ -288,20 +290,16 @@
                         break;
                     }
             }
-
             let firstN = getDigits(digit);
             let secondN = getDigits(digit);
-
             if (firstN < secondN) {
                 let temp = firstN;
                 firstN = secondN;
                 secondN = temp;
             }
-
             if (operator == '÷' && (firstN % secondN !== 0)) {
                 while (isPrime(firstN)) firstN = getDigits(digit);
                 while (isPrime(secondN)) secondN = getDigits(digit);
-
                 let secondFactor = getFactors(secondN, digit);
                 console.log('secondFactor: ', secondFactor);
                 secondN = getArrayRandomItem(getFactors(firstN, digit));
@@ -311,12 +309,6 @@
             quizNumbers = result;
         }
 
-
-
-
-
-
-
         function numbrFormat(number, digits) {
             while ((number + '').length < digits) {
                 number = '0' + number
@@ -324,14 +316,14 @@
             return number
         }
 
-        function plusPoint(value) {
+        function plusPoint(point) {
             let score = parseInt(this.score);
-            if ((score + value) >= 0) score += value;
+            if ((score + point) >= 0) score += point;
             score = numbrFormat(score, 3);
             this.score = score;
         }
 
-        function checkOutput(value) {
+        function checkOutput(value, operator) {
             switch (operator) {
                 case '+':
                     return +value === (+quizNumbers[0] + +quizNumbers[1])
@@ -345,7 +337,6 @@
         }
 
         function timeReducer() {
-
             let Timer = setInterval(function() {
                 if (time_remain === 60) {
                     document.querySelector(".countdown-min").innerText = "01";
@@ -366,7 +357,6 @@
             }, 1000);
             return Timer;
         }
-
 
         function gameDoing() {
             setQuiz();
@@ -396,19 +386,22 @@
                 </div>
             `;
             vm.innerHTML = doing;
+
             showScore = document.querySelector('.score-panerl--show');
             countDown = document.querySelector('.countdown-sec');
             enterAnwser = document.querySelector('.mathQquestion-output');
             enterAnwser.addEventListener('keyup', function(e) {
                 var key = e.which || e.keyCode;
                 if (key === 13) { // 13 is enter
+                    var answer = e.target.value;
 
-                    value = e.target.value;
-                    if (typeof parseInt(value) !== 'number') {
-                        e.target.value = '';
+                    var op = document.querySelector('.mathQquestion-operation').innerText;
+                    if (typeof parseInt(answer) !== 'number') {
+                        answer = '';
                         return;
                     }
-                    if (checkOutput(value)) {
+                    console.log(checkOutput(answer, op));
+                    if (checkOutput(answer, op)) {
                         if (time_remain <= 20 && time_remain >= 0) {
                             plusPoint(5);
                         } else {
@@ -417,19 +410,20 @@
                     } else {
                         plusPoint(-1);
                     }
+                    console.log(score);
+                    showScore.innerText = score;
                     randOp();
                     setQuiz();
                     document.querySelector('.mathQquestion-num1').innerText = quizNumbers[0];
                     document.querySelector('.mathQquestion-num2').innerText = quizNumbers[1];
+                    document.querySelector('.mathQquestion-operation').innerText = randOp();
                     e.target.value = '';
                 }
             });
         }
-
         startG.addEventListener('click', () => {
             gameDoing();
             timeReducer();
-
         });
     </script>
 </body>

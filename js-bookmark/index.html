@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>書籤</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css' />
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body onload="fetchBookmarks()">
+
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+
+            </nav>
+            <h3 class="text-muted">書籤</h3>
+        </div>
+
+        <div class="jumbotron">
+            <h2>我的最愛</h2>
+            <form id="myForm">
+                <div class="form-group">
+                    <label>站名</label>
+                    <input type="text" class="form-control" id="siteName" placeholder="Website Name">
+                </div>
+                <div class="form-group">
+                    <label>網址</label>
+                    <input type="text" class="form-control" id="siteUrl" placeholder="Website URL">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-12">
+                <div id="bookmarksResults"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- /container -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.js'></script>
+    <script src="all.js"></script>
+</body>
+
+</html>
