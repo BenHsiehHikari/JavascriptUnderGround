@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="text" value="M122427720">
+	<div></div>
+	<script>
+		var input = document.querySelector('input').value;
+		function checkTwID(id){
+    		//建立字母分數陣列(A~Z)
+    		var city = new Array(1,10,19,28,37,46,55,64,39,73,82, 2,11,20,48,29,38,47,56,65,74,83,21, 3,12,30)
+    		id = id.toUpperCase();
+    //使用「正規表達式」檢驗格式
+    		if (id.search(/^[A-Z](1|2)\d{8}$/i) == -1) {
+    			
+        			document.body.innerHTML = "身分證錯誤";
+    		} else {
+		        //將字串分割為陣列(IE必需這麼做才不會出錯)
+		        id = id.split('');
+		        //計算總分
+		        var total = city[id[0].charCodeAt(0)-65];
+		        for(var i=1; i<=8; i++){
+		            total += eval(id[i]) * (9 - i);
+		        }
+		        //補上檢查碼(最後一碼)
+		        total += eval(id[9]);
+		        //檢查比對碼(餘數應為0);
+		        document.querySelector('div').innerHTML = "身分證正確";
+		        return ((total%10 == 0 ));
+		        
+    }
+}
+checkTwID(input);
+	</script>
+</body>
+</html>

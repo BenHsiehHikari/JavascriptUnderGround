@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>抽獎輪盤</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+    <div id="app">
+        <!--狀態按鈕-->
+        <section class="game-status">
+            <div class="toggle-btn" @click="isToggle = !isToggle"></div>
+            <transition name="slide-fade">
+                <div class="status-wrapper" v-if="isToggle">
+                    <div class="times">
+                        CHANCE <span>{{time_remaining}}
+                    </div>
+                    <div class="button-list">
+                        <button 
+                          class="btn btn-primary" 
+                          :class="{'active':current_year===2017}"
+                          @click="setCurrentYear(2017)">
+                          2017
+                        </button>
+                        <button 
+                          class="btn btn-primary" 
+                          :class="{'active':current_year===2018}"
+                          @click="setCurrentYear(2018)">
+                          2018
+                        </button>
+                        <button 
+                          class="btn btn-secondary" 
+                          @click="restart">
+                          Restart
+                        </button>
+                    </div>
+                </div>
+            </transition>
+        </section>
+
+        <section class="wheel">
+            <div class="pointer-container">
+                <div 
+                  class="pointer" 
+                  ref="pointer" 
+                  id="pointer" 
+                  :style="{'transform':rotate_deg,'transition': prize_transition}"
+                  @click="rotateHandler(num)">
+                </div>
+            </div>
+            
+            <div :class="containerClass">
+                <div 
+                  v-for="(item,index) in prizes" 
+                  :key="item.name" 
+                  ref="item" 
+                  :class="itemClass">
+                  <div :class="contentClass">
+                        <i class="material-icons">
+                          {{item.icon}}
+                        </i>
+                        <span>
+                          {{item.name}}
+                          <span :class="countClass">
+                              {{item.count}}
+                          </span>
+                        </span>
+                   </div>
+                </div>
+            </div>
+
+            
+            <transition name="slide-fade">
+                <div class="prize" v-if="isShow==isClicked">
+                    <div class="prize-container">
+                        <div class="prize-title">WELL</br> DONE!</div>
+                        <div class="prize-title">YOU GET A FREE...</br>
+                            <span class="prize-item">{{prize_name}}</span>
+                        </div>
+                        <div class="prize-background">
+                            <template v-for="(prizeIcon,index) in 9">
+                                <i class="material-icons">
+                                  {{prize_icon}}
+                                </i>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+         </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script src="js/all.js"></script>
+</body>
+</html>

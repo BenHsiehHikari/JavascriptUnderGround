@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>表單驗證</h1>
+
+    <div class="container">
+
+        <form action="" onsubmit="return valiate()">
+            <div class="form-group">
+                <label for="">Username:</label>
+                <input type="text" id="username">
+                <span id="usererror" style="color:#f00"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Password:</label>
+                <input type="text" id="password">
+                <span id="passworderror" style="color:#f00"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Confirm Password:</label>
+                <input type="text" id="confirmpw">
+                <span id="cherror" style="color:#f00"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Email:</label>
+                <input type="text" id="email">
+                <span id="emailerror" style="color:#f00"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Mobile Number:</label>
+                <input type="text" id="mobile">
+                <span id="mobileerror" style="color:#f00"></span>
+            </div>
+            <input type="submit">
+        </form>
+    </div>
+    <script>
+        function valiate() {
+            let username = document.querySelector('#username').value;
+            let password = document.querySelector('#password').value;
+            let confirmpw = document.querySelector('#confirmpw').value;
+            let email = document.querySelector('#email').value;
+            let mobile = document.querySelector('#mobile').value;
+
+            var usercheck = /^[A-Za-z. ]{3,30}$/;
+            var passwordcheck = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+            var emailcheck = /^[A-Za-z_]{3,}@[A-Za-z]{3,}[.]{1}[A-Za-z.]{2,6}$/;
+            var mobilecheck = /^[0-9]+$/;
+
+            if (usercheck.test(username)) {
+                document.querySelector('#usererror').innerHTML = '';
+            } else {
+                document.querySelector('#usererror').innerHTML = '無效的帳號';
+                return false;
+            }
+            if (passwordcheck.test(password)) {
+                document.querySelector('#passworderror').innerHTML = '';
+            } else {
+                document.querySelector('#passworderror').innerHTML = '無效密碼';
+                return false;
+            }
+            if (password.match(confirmpw)) {
+                document.querySelector('#cherror').innerHTML = '';
+            } else {
+                document.querySelector('#cherror').innerHTML = '密碼不同';
+                return false;
+            }
+            if (emailcheck.test(email)) {
+                document.querySelector('#passworderror').innerHTML = '';
+            } else {
+                document.querySelector('#passworderror').innerHTML = '無效email';
+                return false;
+            }
+            if (mobilecheck.test(mobile)) {
+                document.querySelector('#passworderror').innerHTML = '';
+            } else {
+                document.querySelector('#passworderror').innerHTML = '無效手機號碼';
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- Compiled and minified CSS -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    .col.s6 img{
+      width: 100%;
+      border-radius: 10px;
+      opacity: 0.85;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- Keydown keypress input propertychange keyup change 事件 -->
+    <div class="container">
+      <h1>登入</h1>
+      <div class="row">
+        <form action="" class="col s6" id="myForm" novalidate>
+          <div class="row">
+            <div class="input-field col s6">
+              <label for="firstName">姓氏</label>
+              <input type="text" name="First Name" id="firstName" onfocusout="validFirstName()"/>
+              <span class="helper-text"></span>
+            </div>
+            <div class="input-field col s6">
+              <label for="lastName">名字</label>
+              <input type="text" name="Last Name" id="lastName" onfocusout="validLastName()"/>
+              <span class="helper-text"></span>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <label for="password">Password</label>
+                <input type="password" name="Password" id="password" onfocusout="validPassword()"/>
+                <span class="helper-text"></span>
+              </div>
+              <div class="input-field col s6">
+                <label for="comfirm">comfirm Password</label>
+                <input type="password" name="comfirm" id="comfirm" onfocusout="validConfirm()"/>
+                <span class="helper-text"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <label for="email">Email</label>
+                <input type="email" name="Email" id="email" onfocusout="validEmail()"/>
+                <span class="helper-text"></span>
+              </div>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light">
+              登入
+            </button>
+          </div>
+        </form>
+        <div class="col s6">
+          <img src="https://images.unsplash.com/photo-1559309278-5da30532577a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80" alt="login-picture">
+        </div>
+      </div>
+    </div>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      ;(function(){
+        const firstName = document.querySelector('#firstName');
+        const lastName = document.querySelector('#lastName');
+        const pwd = document.querySelector('#password');
+        const confirm = document.querySelector('#comfirm');
+        const email = document.querySelector('#email');
+
+        const form = document.querySelector('#myForm');
+
+        const green = '#3fef00';
+        const red = '#ff4200';
+
+        form.addEventListener('submit',function(event){
+          event.preventDefault();
+          if(
+            validFirstName() &&
+            validLastName() &&
+            validPassword() &&
+            validateConfirm() &&
+            validateEmail()
+          ){
+              const name = firstName.value;
+              const container = document.querySelector('div.container');
+              const loader = document.createElement('div');
+              loader.className = 'progress';
+              const loadingBar = document.createElement('div');
+              loadingBar.className = 'indeterminate';
+              loader.appendChild(loadingBar);
+              container.appendChild(loader);
+
+              setTimeout(function(){
+                const loaderDiv = document.querySelector('div.progress');
+                const panel = document.createElement('div');
+                panel.className = 'card-panel green';
+                const text = document.createElement('span');
+                text.appendChild(document.createTextNode(`Sign up successfulm welcome to my ${name}`));
+                panel.appendChild(text);
+                container.replaceChild(panel, loaderDiv);
+              },1000)
+          }
+        })
+
+        function validFirstName(){
+          if(checkIfEmpty(firstName)) return;
+          if(!checkLetters(firstName)) return;
+          return true;
+        }
+
+        function validLastName(){
+          if(checkIfEmpty(lastName)) return;
+          if(!checkLetters(lastName)) return;
+          return true;
+        }
+
+        function validPassword(){
+          if(checkIfEmpty(password))  return;
+          if(!meetLength(password, 4, 100)) return;
+
+          // if(!containsLetters(password, 1)) return;
+          return true;
+        }
+
+        function validateConfirm(){
+            if(password.className !== 'valid'){
+              setInvalid(confirm,' Password must be valid');
+              return;
+            }
+            if(password.value !== confirm.value){
+              setInvalid(confirm, 'Passwords must match');
+            }else{
+              setValid(confirm);
+            }
+            return true;
+        }
+        function validateEmail(){
+          if(checkIfEmpty(email)) return;
+          if(!containsLetters(email,5)) return;
+          return true;
+        }
+        function checkIfEmpty(field){
+          if(isEmpty(field.value.trim())){
+            setInvalid(field, `${field.name} must not be empty`);
+            return true;
+          }else{
+            setValid(field);
+            return false;
+          }
+        }
+
+        function isEmpty(value){
+          if(value==='') return true;
+          return false;
+        }
+
+        function setInvalid(field, message){
+          field.className = 'invalid';
+          field.nextElementSibling.innerHTML = message;
+          field.nextElementSibling.style.color = red;
+        }
+        function setValid(field){
+          field.className = 'valid';
+          field.nextElementSibling.innerHTML = '';
+          //field.nextElementSibling.style.color = red;
+        }
+
+        function checkLetters(field){
+          if(/^[A-Z u4E00-u9FA5]+$/.text(field.value)){
+            setValid(field);
+            return true;
+          }else{
+            setInvalid(field,`${field.name} must contain only letters`);
+          }
+        }
+        function meetLength(field,minlength,maxlength){
+          if(field.value.length>=minlength && field.value.length<maxlength){
+            setValid(field);
+            return;
+          }else if(field.value.length < minlength){
+            setInvalid(field,`${field.name} must be at least ${minlength} characters long`);
+            return false;
+          }else{
+            setInvalid(field,`{field.name} must be shorter than ${maxlength} characters`);
+            return false;
+          }
+        }
+
+        function containsLetters(field,code){
+          let regEx;
+          switch(code){
+            case 1:
+              regEx = /(?=.*[a-zA-Z])/;
+              return matchWithReg(regEx,field, 'Must contain at least one letters')
+            case 2:
+              regEx = /(?=.*\d)(?=.*[a-zA-Z])/
+              return matchWithReg(regEx, field ,'Must contain one least letter and one number');
+            case 3:
+              regEx = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/;
+              return matchWithReg(regEx, field, 'Must contain at least one uppercase, one lowercase letter and one number');
+            case 4:
+              regEx = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+              return matchWithReg(regEx, field ,'Must contain at least one uppercase, one lowercase letter, one number and one special character');
+            case 5:
+              regEx = /^\w ((-\w )|(\.\w ))*\@[A-Za-z0-9] ((\.|-)[A-Za-z0-9] )*\.[A-Za-z0-9] $/;
+              return matchWithReg(regEx, field, 'Must be a valid email address');
+            default:
+              return false;
+          }
+        }
+
+        function matchWithReg(regEx,field, message){
+          if(field.value.match(regEx)){
+            return true;
+          }else{
+            setInvalid(field,message);
+            return false;
+          }
+        }
+      })();
+    </script>
+</body>
+</html>
