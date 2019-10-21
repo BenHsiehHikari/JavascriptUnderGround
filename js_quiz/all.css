@@ -21,15 +21,15 @@ body {
 .quiz .question__answers {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+  margin: 15px 0px;
 }
 .quiz .question__answers label {
   padding: 15px;
-  margin: 5px 0;
+  margin: 5px 0px;
   background: #c4c4c4;
 }
 .quiz .question__answers label.correct {
-  background-color: #24a484;
+  background: #24a484;
 }
 .quiz .question__answers label.incorrect {
   background: #af1e2d;
@@ -37,4 +37,7 @@ body {
 .quiz .question__actions {
   display: flex;
   justify-content: flex-end;
+}
+.hide {
+  display: none;
 }
