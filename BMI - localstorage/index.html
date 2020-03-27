@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="css/main.css">
+    <title>BMI calculator | 六角學院</title>
+</head>
+<body>
+	<div class="wrapper">
+
+		<section class="bmi">
+
+			<div class="bmi__logo">
+				
+			</div>
+
+			<div class="bmi__calc">
+				<div class="data">
+					<label for="">身高 CM</label>
+					<input type="text" name="" placeholder="請輸入身高" id="js-height" />
+					<label>體重 kg</label>
+					<input type="text" placeholder="請輸入體重" id="js-weight" />
+				</div>
+			</div>
+
+			<div class="bmi__output">
+				<div class="result">
+					<p id="calcResult">看結果</p>
+					<div class="bmiReset">
+						<img src="images/icons_loop.png" />
+						<!--重新計算-->
+					</div>
+				</div>
+
+				<div class="result bmiResetText">
+					<p id="calcResultText">
+						 <!--正常 過輕 過重-->
+					</p>
+				</div>
+
+			</div>
+		</section>
+
+		<section class="report">
+			<h2 class="report__title">BMI 紀錄</h2>
+			<div class="report__history">
+				<ul class="report__history--listed">
+					
+				</ul>
+			</div>
+		</section>
+
+		<footer class="footer">
+			
+		</footer>
+	</div>
+	<script src="js/all2.js""></script>
+</body>
+</html>

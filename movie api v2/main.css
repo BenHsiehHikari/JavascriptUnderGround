@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.active-pink-2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.active-pink-2 input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+
+.active-pink input[type=text] {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+
+#movies-container {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 10px;
+    width: 700px;
+    background-color: #eee;
+    margin: 0 auto;
+}
+
+#movies-container .img {
+    margin: 10px;
+    width: 150px;
+    cursor: pointer;
+}
+
+#movies-container .img img {
+    width: 100%;
+}
