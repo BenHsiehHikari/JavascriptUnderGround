@@ -1,0 +1,128 @@
+*{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+body{
+  background-color: rgb(225, 223, 223);
+}
+img{
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: top;
+}
+#app{
+  padding: 20px;
+}
+header{
+  margin-bottom: 20px;
+}
+header h1{
+  text-align: center;
+}
+main{
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  max-width: 1560px;
+  padding: 20px 0;
+  margin: auto;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+.select-city, .select-town{
+  width: 300px;
+  height: 35px;
+}
+.select-city{
+  margin-right: 30px;
+}
+.select-city select,
+.select-town select{
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: rgb(225, 223, 223);
+}
+.output{
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 500px 500px 500px;
+  grid-gap: 30px;
+}
+.output-list{
+  position: relative;
+  height: 300px;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5)35%, rgba(255, 255, 255, 0)60%);
+}
+.content-image{
+  position: absolute;
+  height: 100%;
+  z-index: -1;
+}
+.content{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-content: space-between;
+}
+.content .city-mark{
+  display: inline-block;
+  color:#fff;
+  font-size: 16px;
+  background-color: rgb(249, 180, 8);
+  padding: 5px;
+  width: 58px;
+}
+.content .title{
+  padding: 5px;
+  transform: translateY(70px);
+}
+.content .town-mark{
+  font-size: 16px;
+  font-style: italic;
+  color:#fff;
+  display: block;
+}
+.content .act-name{
+  font-size: 20px;
+  color:#fff;
+}
+.content .act-name:after{
+  content:'';
+  display: block;
+  width: 0%;
+  height: 5px;
+  background-color: #fff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.content .intro{
+  color: #fff;
+}
+.ellipsis{
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
+.output-list:hover > .content .title{
+  transform: translateY(0px);
+  transition: transform .5s;
+}
+.output-list:hover > .content .title > .act-name:after{
+  width: 15%;
+  transition: width 1s;
+}

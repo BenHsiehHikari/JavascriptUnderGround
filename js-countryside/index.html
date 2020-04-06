@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>農村地方美食</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>農村地方美食小吃特色料理</h1>
+    </header>
+    <main>
+      <div class="select-city">
+        <select @change="handleSelectCity($event)">
+          <option value="" disabled="disabled" selected="selected">請選擇行政區域...</option>
+          <option v-for="city in cities">{{ city }}</option>
+        </select>
+      </div>
+      <div class="select-town">
+        <select @change="handleSelectTown($event)">
+          <option value="" disabled="disabled" selected="selected">請選擇鄉鎮區...</option>
+          <option v-for="town in towns">{{ town }}</option>
+        </select>
+      </div>
+    </main>
+    <ul class="output">
+      <li class="output-list" v-for="item in raw_data">
+        <img class="content-image" :src="item.PicURL" alt="">
+        <div class="content">
+          <span class="city-mark">{{ item.City }}</span>
+          <div class="title">
+            <span class="town-mark">{{ item.Town }}</span>
+            <span class="act-name">{{ item.Name }}</span>
+            <p class="intro ellipsis">
+              {{ item.FoodFeature }}
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js'></script>
+  <script src="all.js"></script>
+</body>
+</html>
