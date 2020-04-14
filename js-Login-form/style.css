@@ -1,0 +1,245 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #3c3c3c;
+}
+
+.form_wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_wrapper .form {
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  background-color: #EEE;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form_wrapper .form h2 {
+  color: #3c3c3c;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.form_wrapper .form .form-group {
+  position: relative;
+  vertical-align: middle;
+  display: block;
+  margin-top: 16px;
+  transition: 0.4s;
+}
+
+.form_wrapper .form .form-group::before,
+.form_wrapper .form .form-group::after {
+  box-sizing: inherit;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  z-index: 2;
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+}
+
+.form_wrapper .form .form-group::before {
+  top: 0;
+  left: 0;
+  transition: border-color 0s ease-out 1s, width 0.25s ease-out 0.75s, height 0.25s ease-out 0.5s;
+}
+
+.form_wrapper .form .form-group::after {
+  bottom: 0;
+  right: 0;
+  transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.25s, height 0.25s ease-out;
+}
+
+.form_wrapper .form .form-group label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  transition: 0.4s;
+  z-index: 5;
+  color: #3c3c3c;
+  font-size: 18px;
+}
+
+.form_wrapper .form .form-group .form-element {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  background-color: #FFF;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  margin-bottom: 16px;
+  padding: 16px;
+  color: #3c3c3c;
+  font-size: 18px;
+  font-weight: 300;
+  transition: 0.4s;
+}
+
+.form_wrapper .form .form-group.is-active {
+  margin-top: 32px;
+}
+
+.form_wrapper .form .form-group.is-active::before,
+.form_wrapper .form .form-group.is-active::after {
+  width: 100%;
+  height: 100%;
+}
+
+.form_wrapper .form .form-group.is-active::before {
+  border-top-color: #FF1053;
+  border-right-color: #FF1053;
+  transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+}
+
+.form_wrapper .form .form-group.is-active::after {
+  border-bottom-color: #FF1053;
+  border-left-color: #FF1053;
+  transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
+}
+
+.form_wrapper .form .form-group.is-active .form-element {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form_wrapper .form .form-group.is-active label {
+  top: -16px;
+  left: 0px;
+  color: #3c3c3c;
+  font-size: 12px;
+}
+
+.form_wrapper .form .submit-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: #3c3c3c;
+  font-size: 18px;
+  text-transform: uppercase;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.form_wrapper .form .submit-btn::before,
+.form_wrapper .form .submit-btn::after {
+  box-sizing: inherit;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  z-index: 2;
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+}
+
+.form_wrapper .form .submit-btn::before {
+  top: 0;
+  left: 0;
+  transition: border-color 0s ease-out 1s, width 0.25s ease-out 0.75s, height 0.25s ease-out 0.5s;
+}
+
+.form_wrapper .form .submit-btn::after {
+  bottom: 0;
+  right: 0;
+  transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.25s, height 0.25s ease-out;
+}
+
+.form_wrapper .form .submit-btn:hover {
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+}
+
+.form_wrapper .form .submit-btn:hover::before,
+.form_wrapper .form .submit-btn:hover::after {
+  width: 100%;
+  height: 100%;
+}
+
+.form_wrapper .form .submit-btn:hover::before {
+  border-top-color: #FF1053;
+  border-right-color: #FF1053;
+  transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+}
+
+.form_wrapper .form .submit-btn:hover::after {
+  border-bottom-color: #FF1053;
+  border-left-color: #FF1053;
+  transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
+}
+
+.form_wrapper .form .forgot-password {
+  color: #3c3c3c;
+  text-decoration: none;
+  padding: 4px;
+  transition: 0.4s;
+}
+
+.form_wrapper .form .forgot-password:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 3px solid #FF1053;
+}
+
+.form_wrapper #forgot_password {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: 99;
+  background-color: #EEE;
+  opacity: 0;
+  transition: 0.6s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_wrapper #forgot_password .close {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  font-size: 48px;
+  font-weight: 900;
+  text-decoration: none;
+  color: #3c3c3c;
+}
+
+.form_wrapper #forgot_password .form {
+  background-color: #3c3c3c;
+}
+
+.form_wrapper #forgot_password .form h2 {
+  color: #EEE;
+}
+
+.form_wrapper #forgot_password:target {
+  height: 100%;
+  opacity: 1;
+}
