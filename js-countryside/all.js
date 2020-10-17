@@ -25,11 +25,11 @@ const vm = new Vue({
       return this.results.filter(item => {
         let filtered = true;
         if(filterCity && filterCity.length > 0){
-          filtered = item.City == filterCity
+          filtered = item.City === filterCity
         }
         if(filtered){
           if(filterTown && filterTown.length > 0){
-            filtered = item.Town == filterTown
+            filtered = item.Town === filterTown
           }
         }
         return filtered
