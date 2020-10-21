@@ -1,5 +1,11 @@
-const ablumURL = 'https://jsonplaceholder.typicode.com/photos';
-const url = ablumURL + '?_limit=5';
+const productURL = 'http://localhost:1337/products/';
+let ablumid = document.querySelector('#ablumid');
+let ablumtitle = document.querySelector('#ablumtitle');
+let photourl = document.querySelector('#photourl');
+let btnCreate = document.querySelector('#btn-create');
+let btnRead = document.querySelector('#btn-read');
+let btnUpdate = document.querySelector('#btn-update');
+let btnDeleteAll = document.querySelector('#btn-delete');
 
 function createNode(element) {
   return document.createElement(element); 
@@ -9,66 +15,74 @@ function append(parent, el) {
   return parent.appendChild(el);
 }
 
-fetchData();
 async function fetchData(){
-  const response = await fetch( url ,{
+  const response = await fetch( productURL ,{
     method: 'GET',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
     },
   });
-  const data = await response.json();
+  const productList = await response.json();
+  console.log(productList);
   const tbody = document.querySelector('#tbody');
-  data.map(function(item){
-    let tr = createNode('tr');
-    let th = createNode('th');
-    let td1 = createNode('td');
-    let td2 = createNode('td');
-    let td3 = createNode('td');
-    let td4 = createNode('td');
-    let img = createNode('img');
-    let iEdit = createNode('i');
-    let iDel = createNode('i');
+  productList.map(function(item){
+      let tr = createNode('tr');
+      let th = createNode('th');
+      let td1 = createNode('td');
+      let td2 = createNode('td');
+      let td3 = createNode('td');
+      let td4 = createNode('td');
+      let td5 = createNode('td');
+      let img = createNode('img');
+      let iEdit = createNode('i');
+      let iDel = createNode('i');
+  
+      th.textContent = item.id;
 
-    th.textContent = item.id;
-    td1.textContent = item.title;
+      td1.classList.add("name");
+      td1.textContent = item.productName;
+  
+      td2.classList.add("seller");
+      td2.textContent = item.productSeller;
 
-    td2.classList.add("album-pic");
-    img.src = item.thumbnailUrl;
-    img.alt = `album${item.id}`;
+      td3.classList.add("price");
+      td3.textContent = item.productPrice;
 
-    iEdit.className = "fas fa-edit btnedit";
-    iDel.className = "fas fa-trash-alt btndelete";
-    
-    append(tr, th);
-    append(tr, td1);
+      td4.classList.add("edit");
+      iEdit.className = "fas fa-edit btnedit";
 
-    append(td2, img);
-    append(tr, td2);
+      td5.classList.add("delete");
+      iDel.className = "fas fa-trash-alt btndelete";
+      
+      append(tr, th);
 
-    append(td3, iEdit);
-    append(tr, td3);
+      append(tr, td1);
+  
+      append(tr, td2);
+  
+      append(tr, td3);
+  
+      append(td4, iEdit);
+      append(tr, td4);
 
-    append(td4, iDel);
-    append(tr, td4);
-
-    append(tbody, tr);
-  })
+      append(td5, iDel);
+      append(tr, td5);
+  
+      append(tbody, tr);
+    })
 }
 
+
 async function createAlbum(){
-  const url = 'https://jsonplaceholder.typicode.com/photos?_limit=50';
-  const response = await fetch( url, {
+  const response = await fetch( productURL , {
     method: 'POST',
-    credentials: 'include', 
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
     },
     body:JSON.stringify({
-      albumId: 1,
-      title: 'foo',
-      url: 'https://via.placeholder.com/600/cef542',
-      thumbnailUrl: 'https://via.placeholder.com/150/cef542',
+      productName: 'iphone 12',
+      productSeller: '船長',
+      productPrice: 30000,
     }), 
   });
   const data = await response.json();
@@ -107,4 +121,10 @@ async function deleteData(){
 
 
 
+window.addEventListener('load', function(){
+  fetchData();
+})
 
+btnCreate.addEventListener('click', function(){
+  
+});

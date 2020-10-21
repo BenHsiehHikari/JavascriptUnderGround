@@ -32,33 +32,42 @@
     <main>
         <div class="container text-center">
             <h1 class="bg-light py-4 text-info">
-                相簿管理
+                商品管理
             </h1>
             <div class="d-flex justify-content-center">
                 <form class="w-50">
                     <input
                         type="text"
-                        id="userid"
+                        id="product-id"
                         class="form-control"
                         autocomplete="off"
                         readonly
-                        placeholder="相簿編號"
+                        placeholder="編號"
                     />
                     <input
                         type="text"
-                        id="proname"
+                        id="product-name"
                         class="form-control"
                         autocomplete="off"
-                        placeholder="相簿標題"
+                        placeholder="商品名"
                     />
                     <div class="row">
                         <div class="col">
                             <input
                                 type="text"
-                                id="seller"
+                                id="product-seller"
                                 class="form-control m-0"
                                 autocomplete="off"
-                                placeholder="圖片網址"
+                                placeholder="售出者"
+                            />
+                        </div>
+                        <div class="col">
+                            <input
+                                type="text"
+                                id="product-price"
+                                class="form-control m-0"
+                                autocomplete="off"
+                                placeholder="價格"
                             />
                         </div>
                     </div>
@@ -68,19 +77,19 @@
                 <button
                     class="btn btn-success"
                     id="btn-create"
-                >Create</button>
+                >新建</button>
                 <button
                     class="btn btn-primary"
                     id="btn-read"
-                >Read</button>
+                >讀取</button>
                 <button
                     class="btn btn-warning"
                     id="btn-update"
-                >Update</button>
+                >更新</button>
                 <button
                     class="btn btn-danger"
                     id="btn-delete"
-                >Delete All</button>
+                >刪除全部</button>
             </div>
 
             <!--  Table -->
@@ -88,22 +97,22 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">相簿編號</th>
-                            <th scope="col">相簿標題</th>
-                            <th scope="col">相簿縮圖</th>
+                            <th scope="col">編號</th>
+                            <th scope="col">商品名</th>
+                            <th scope="col">售出者</th>
+                            <th scope="col">價格</th>
                             <th scope="col">編輯</th>
                             <th scope="col">刪除</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                             <!-- <tr>
-                                <th class="album-id" scope="row">1</th>
-                                <td class="album-title">Mark</td>
-                                <td class="album-pic">
-                                    <img src="https://via.placeholder.com/150/92c952" alt="album">
-                                </td>
-                                <td class="album-edit">@mdo</td>
-                                <td class="album-delete">@mdo</td>
+                                <th class="id" scope="row">1</th>
+                                <td class="name">PS5主機</td>
+                                <td class="seller">Penguin</td>
+                                <td class="price">NT $19,000</td>
+                                <td class="edit">@mdo</td>
+                                <td class="delete">@mdo</td>
                             </tr> -->
                     </tbody>
                 </table>

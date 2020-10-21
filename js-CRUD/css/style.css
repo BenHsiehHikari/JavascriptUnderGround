@@ -37,14 +37,15 @@ table .btndelete {
   animation: slideup 3.4s ease;
 }
 
-#tbody tr > *{
+/* #tbody tr > *{
   vertical-align: middle;
 }
 
 .album-pic img{
   width: 100px;
   height: 100px;
-}
+} */
+
 @keyframes slideup {
   50% {
       top: 0
